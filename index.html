@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<form action="#">
+    <input id="text" type="text">
+    <input id="sub" type="submit">
+</form>
+<div id="div">
+</div>
+
+<body>
+    <script>
+        document.querySelector("#sub").addEventListener("click", function(e) {
+            e.preventDefault();
+
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + document.querySelector("#text").value + "&appid=2cc7d408f527de19889ec31f5c22aa33&lang=fr", true);
+            xhr.send();
+            xhr.addEventListener("readystatechange", function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.querySelector("#div").innerHTML += "<p>Le temps à " + JSON.parse(xhr.response).name + " est : " + JSON.parse(xhr.response).weather[0].description + "</p>";
+                    document.querySelector("#div").innerHTML += "<img src = 'http://api.openweathermap.org/img/w/" + JSON.parse(xhr.response).weather[0].icon + ".png'>";
+                    document.querySelector("#text").value = "";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
