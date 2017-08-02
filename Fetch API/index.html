@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="form" action="" method="POST">
+        <input id="title" name="title" type="text">
+        <textarea name="content" id="text"></textarea>
+        <input id="inp" type="submit">
+    </form>
+
+    <script>
+        document.querySelector("#inp").addEventListener("click", function(e) {
+            e.preventDefault();
+            let a = new FormData(document.querySelector("#form"));
+            let result = {};
+
+            for (let entry of a.entries()) {
+                result[entry[0]] = entry[1];
+            }
+            result = JSON.stringify(result);
+            console.log(result);
+            fetch('http://192.168.1.152:8080/article/?id=justin', {
+                method: "POST",
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response) {
+                console.log(response.status);
+                fetch('http://192.168.1.152:8080/article/?id=justin&title=' + document.querySelector("#title").value).then(function(response) {
+                    return response.text();
+                }).then(function(text) {
+                    console.log(text);
+                }).catch(function(error) {
+                    console.log(error);
+                })
+            }).then(function(text) {
+                console.log(text);
+            }).catch(function(error) {
+                console.error(error);
+            })
+        });
+    </script>
+</body>
+
+</html>

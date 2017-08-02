@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="but">Press</button>
+    <div id="div"></div>
+    <script>
+        document.querySelector("#but").addEventListener("click", function(e) {
+            e.preventDefault();
+
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://dog.ceo/api/breed/brabancon/images/random", true);
+            xhr.send();
+            xhr.addEventListener("readystatechange", function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.querySelector("#div").innerHTML = "<img src =" + JSON.parse(xhr.response).message + ">";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
